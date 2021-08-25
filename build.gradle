@@ -1,0 +1,41 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+//        maven { url 'https://jitpack.io' }
+        maven { url 'http://gitee.com/liuchaoya/libcommon/raw/master/repository/' }
+//        maven { url 'http://raw.github.com/saki4510t/libcommon/master/repository/' }
+//        maven { url 'https://raw.githubusercontent.com/saki4510t/libcommon/master/repository/'}
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    androidXVersion = '1.1.0'  // variable that can be referenced to keep support libs consistent
+    commonLibVersion= '4.0.0'
+    versionCompiler = 28
+    // when target=27, 9.0 is ok
+    versionTarget = 27
+    // if hope supporting 4.4
+    // please modify it to 16
+    minSdkVersion = 21
+    versionCode = 100
+    versionNameString = '2.3.5.20210316'
+    javaSourceCompatibility = JavaVersion.VERSION_1_8
+    javaTargetCompatibility = JavaVersion.VERSION_1_8
+}
