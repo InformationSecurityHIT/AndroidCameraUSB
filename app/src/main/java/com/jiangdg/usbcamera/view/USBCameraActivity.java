@@ -263,11 +263,11 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                     return super.onOptionsItemSelected(item);
                 }
                 //绑手机IP
-                UDPSend udpSend = new UDPSend(new byte[0], IP1, 6666);
-                UDPSend udpSend1 = new UDPSend(new byte[0], IP2, 6667);
+                UDPSend_noThread udpSend = new UDPSend_noThread(new byte[0], IP1, 6666);
+                UDPSend_noThread udpSend1 = new UDPSend_noThread(new byte[0], IP2, 6667);
 
-                new Thread(udpSend).start();
-                new Thread(udpSend1).start();
+//                new Thread(udpSend).start();
+//                new Thread(udpSend1).start();
 
                 new Thread(new Runnable() {
                     @Override
@@ -290,12 +290,16 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                             } catch (InterruptedException e) {
                             }
                             Bitmap image = ScaleImage.compressBitmapFromPath(picPath1, 400, 300);
-                            ScaleImage.saveBitmap(image, picPath2);
-                            //绑手机IP
+                            if (image!=null){
+                                ScaleImage.saveBitmap(image, picPath2);
+                                //绑手机IP
 //                            UDPSend udpSend = new UDPSend(imageToByte(picPath2), IP1, 6666);
 //                            UDPSend udpSend1 = new UDPSend(imageToByte(picPath2), IP2, 6667);
-                            udpSend.setData(imageToByte(picPath2));
-                            udpSend1.setData(imageToByte(picPath2));
+                                udpSend.setData(imageToByte(picPath2));
+                                udpSend.sendData();
+                                udpSend1.setData(imageToByte(picPath2));
+                                udpSend1.sendData();
+                            }
 //                            new Thread(udpSend).start();
 //                            new Thread(udpSend1).start();
 //                            mCameraHelper.capturePicture(picPath1, new AbstractUVCCameraHandler.OnCaptureListener() {

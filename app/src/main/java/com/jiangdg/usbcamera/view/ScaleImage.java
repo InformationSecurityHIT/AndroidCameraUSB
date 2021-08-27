@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.media.audiofx.DynamicsProcessing;
 import android.util.Base64;
 
 import java.io.*;
@@ -139,10 +140,14 @@ public class ScaleImage {
         否则，则说明限定范围更加粗矮，则以宽为计算标准
         */
         float compressRatio = 1;
-        if (reqRatio > ratio)
-            compressRatio = reqHeight * 1.0f / baseBitmap.getHeight();
-        else
-            compressRatio = reqWidth * 1.0f / baseBitmap.getWidth();
+        if (baseBitmap!=null){
+            if (reqRatio > ratio)
+                compressRatio = reqHeight * 1.0f / baseBitmap.getHeight();
+            else
+                compressRatio = reqWidth * 1.0f / baseBitmap.getWidth();
+        }else{
+            return null;
+        }
 
         Bitmap afterBitmap = Bitmap.createBitmap(
                 (int) (baseBitmap.getWidth() * compressRatio),
