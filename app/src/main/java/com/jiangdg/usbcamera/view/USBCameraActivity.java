@@ -420,10 +420,12 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                                 Log.d("","",e);
                             }
                             Bitmap image = ScaleImage.compressBitmapFromPath(picPath1, 400, 300);
-                            ScaleImage.saveBitmap(image, picPath2);
-                            //绑电脑IP
-                            udpSend_computer.setData(imageToByte(picPath2));
-                            udpSend_computer.sendData();
+                            if (image!=null){
+                                ScaleImage.saveBitmap(image, picPath2);
+                                //绑电脑IP
+                                udpSend_computer.setData(imageToByte(picPath2));
+                                udpSend_computer.sendData();
+                            }
                         }
                     }
                 }).start();
