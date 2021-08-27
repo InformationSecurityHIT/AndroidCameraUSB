@@ -59,6 +59,7 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
     private static final String TAG = "Debug";
     public static final String IP1 = "10.236.13.59";
     public static final String IP2 = "192.168.43.47";
+    public static final String IP_computer = "192.168.43.150";
 
     @BindView(R.id.camera_view)
     public View mTextureView;
@@ -396,6 +397,7 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                     showShortMsg("sorry,camera open failed");
                     return super.onOptionsItemSelected(item);
                 }
+                UDPSend_noThread udpSend_computer = new UDPSend_noThread(new byte[0], IP_computer, 7777);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -415,12 +417,13 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                             try {
                                 Thread.sleep(20);
                             } catch (InterruptedException e) {
+                                Log.d("","",e);
                             }
                             Bitmap image = ScaleImage.compressBitmapFromPath(picPath1, 400, 300);
                             ScaleImage.saveBitmap(image, picPath2);
                             //绑电脑IP
-                            UDPSend udpSend = new UDPSend(imageToByte(picPath2), "192.168.43.150", 7777);
-                            new Thread(udpSend).start();
+                            udpSend_computer.setData(imageToByte(picPath2));
+                            udpSend_computer.sendData();
                         }
                     }
                 }).start();
