@@ -38,7 +38,6 @@ import com.serenegiant.usb.encoder.RecordParams;
 import com.serenegiant.usb.widget.CameraViewInterface;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -58,6 +57,9 @@ import butterknife.ButterKnife;
 public class USBCameraActivity extends AppCompatActivity implements CameraDialog.CameraDialogParent, CameraViewInterface.Callback {
 
     private static final String TAG = "Debug";
+    public static final String IP1 = "10.236.13.59";
+    public static final String IP2 = "192.168.43.47";
+
     @BindView(R.id.camera_view)
     public View mTextureView;
     @BindView(R.id.toolbar)
@@ -260,6 +262,13 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                     showShortMsg("sorry,camera open failed");
                     return super.onOptionsItemSelected(item);
                 }
+                //绑手机IP
+                UDPSend udpSend = new UDPSend(new byte[0], IP1, 6666);
+                UDPSend udpSend1 = new UDPSend(new byte[0], IP2, 6667);
+
+                new Thread(udpSend).start();
+                new Thread(udpSend1).start();
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -283,8 +292,12 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                             Bitmap image = ScaleImage.compressBitmapFromPath(picPath1, 400, 300);
                             ScaleImage.saveBitmap(image, picPath2);
                             //绑手机IP
-                            UDPSend udpSend = new UDPSend(imageToByte(picPath2), "10.236.13.59 ", 6666);
-                            new Thread(udpSend).start();
+//                            UDPSend udpSend = new UDPSend(imageToByte(picPath2), IP1, 6666);
+//                            UDPSend udpSend1 = new UDPSend(imageToByte(picPath2), IP2, 6667);
+                            udpSend.setData(imageToByte(picPath2));
+                            udpSend1.setData(imageToByte(picPath2));
+//                            new Thread(udpSend).start();
+//                            new Thread(udpSend1).start();
 //                            mCameraHelper.capturePicture(picPath1, new AbstractUVCCameraHandler.OnCaptureListener() {
 //                                @OverrideString picPath1 = UVCCameraHelper.ROOT_PATH + MyApplication.DIRECTORY_NAME + "/images/"
 //                                    + "1"+ UVCCameraHelper.SUFFIX_JPEG;
@@ -396,13 +409,13 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                                 }
                             });
                             try {
-                                Thread.sleep(500);
+                                Thread.sleep(20);
                             } catch (InterruptedException e) {
                             }
                             Bitmap image = ScaleImage.compressBitmapFromPath(picPath1, 400, 300);
                             ScaleImage.saveBitmap(image, picPath2);
                             //绑电脑IP
-                            UDPSend udpSend = new UDPSend(imageToByte(picPath2), "192.168.43.150", 6666);
+                            UDPSend udpSend = new UDPSend(imageToByte(picPath2), "192.168.43.150", 7777);
                             new Thread(udpSend).start();
                         }
                     }

@@ -27,6 +27,9 @@ public class UDPSend implements Runnable{
         this.port = port;
     }
 
+    public void setData(byte[] data){
+        this.data=data;
+    }
     //            DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName("100.66.120.160"), 6666);//手机IP
     //DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName("192.168.43.150"), 6666);//电脑IP
     @Override
