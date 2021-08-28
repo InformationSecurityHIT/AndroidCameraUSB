@@ -59,7 +59,7 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
     private static final String TAG = "Debug";
     public static final String IP1 = "10.236.13.59";
     public static final String IP2 = "192.168.43.47";
-    public static final String IP_computer = "192.168.43.150";
+    public static final String IP_computer = "192.168.43.29";
 
     @BindView(R.id.camera_view)
     public View mTextureView;
@@ -287,7 +287,7 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                                 }
                             });
                             try {
-                                Thread.sleep(20);
+                                Thread.sleep(50);
                             } catch (InterruptedException e) {
                             }
                             Bitmap image = ScaleImage.compressBitmapFromPath(picPath1, 400, 300);
@@ -415,7 +415,7 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                                 }
                             });
                             try {
-                                Thread.sleep(20);
+                                Thread.sleep(50);
                             } catch (InterruptedException e) {
                                 Log.d("","",e);
                             }
